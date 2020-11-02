@@ -5,10 +5,20 @@ fn main() {
     // // arr.sort();
     // // println!("{:?}", arr);
     // println!("{:?}", two_num_sum(&mut arr, target));
-    let mut arr1 = vec![2, 3, 4, 5, 6];
-    let mut arr2 = vec![3, 5];
+    // let mut arr1 = vec![2, 3, 4, 5, 6];
+    // let mut arr2 = vec![3, 5];
 
-    println!("{}", validate_sequence(&mut arr1, &mut arr2));
+    // println!("{}", validate_sequence(&mut arr1, &mut arr2));
+
+    let mut arr = vec![12, 3, 1, 2, -6, 5, -8, 6];
+    let target = 0;
+    println!("{:?}", three_num_sum(&mut arr, target));
+    // let mut arr = vec![];
+    // let a = &mut vec![1, 2, 3];
+    // let b = &mut vec![4, 5, 6];
+    // arr.push(a);
+    // arr.push(b);
+    // println!("{:?}", arr);
 }
 
 // TWO NUMBER SUM
@@ -36,6 +46,34 @@ fn two_num_sum(arr: &mut Vec<i32>, target: i32) -> Vec<i32> {
     }
 
     vec![]
+}
+
+// THREE NUMBER SUM
+fn three_num_sum(arr: &mut Vec<i32>, target: i32) -> Vec<Vec<i32>> {
+    let mut combinations = vec![];
+    arr.sort();
+
+    for i in 0..arr.len() - 2 {
+        let mut left = i + 1;
+        let mut right = arr.len() - 1;
+
+        while left < right {
+            let current_sum = arr[i] + arr[left] + arr[right];
+            if current_sum == target {
+                combinations.push(vec![arr[i], arr[left], arr[right]]);
+                left += 1;
+                right -= 1;
+            }
+
+            if current_sum < target {
+                left += 1;
+            } else if current_sum > target {
+                right -= 1;
+            }
+        }
+    }
+
+    combinations
 }
 
 // VALIDATE SEQUENCE
