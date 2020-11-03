@@ -10,15 +10,18 @@ fn main() {
 
     // println!("{}", validate_sequence(&mut arr1, &mut arr2));
 
-    let mut arr = vec![12, 3, 1, 2, -6, 5, -8, 6];
-    let target = 0;
-    println!("{:?}", three_num_sum(&mut arr, target));
+    // let mut arr = vec![12, 3, 1, 2, -6, 5, -8, 6];
+    // let target = 0;
+    // println!("{:?}", three_num_sum(&mut arr, target));
     // let mut arr = vec![];
     // let a = &mut vec![1, 2, 3];
     // let b = &mut vec![4, 5, 6];
     // arr.push(a);
     // arr.push(b);
     // println!("{:?}", arr);
+    let mut arr1 = vec![-1, 5, 10, 20, 28, 3];
+    let mut arr2 = vec![26, 134, 135, 15, 17];
+    println!("{:?}", smalledst_difference(&mut arr1, &mut arr2));
 }
 
 // TWO NUMBER SUM
@@ -26,6 +29,7 @@ fn main() {
     Given an array of integers and a target value, return an array of two integers that sum up to the target value.
     Return an empty array otherwise.
 */
+#[allow(dead_code)]
 fn two_num_sum(arr: &mut Vec<i32>, target: i32) -> Vec<i32> {
     arr.sort();
     let mut left = 0;
@@ -49,6 +53,7 @@ fn two_num_sum(arr: &mut Vec<i32>, target: i32) -> Vec<i32> {
 }
 
 // THREE NUMBER SUM
+#[allow(dead_code)]
 fn three_num_sum(arr: &mut Vec<i32>, target: i32) -> Vec<Vec<i32>> {
     let mut combinations = vec![];
     arr.sort();
@@ -80,6 +85,7 @@ fn three_num_sum(arr: &mut Vec<i32>, target: i32) -> Vec<Vec<i32>> {
 /*
     Given two non-empty arrays, validate that the second array is a subsequence of the first.
 */
+#[allow(dead_code)]
 fn validate_sequence(arr1: &mut Vec<i32>, arr2: &mut Vec<i32>) -> bool {
     arr1.sort();
     arr2.sort();
@@ -99,6 +105,38 @@ fn validate_sequence(arr1: &mut Vec<i32>, arr2: &mut Vec<i32>) -> bool {
     second == arr2.len()
 }
 
+// SMALLEST DIFFERENCE
+#[allow(dead_code)]
+fn smalledst_difference(arr1: &mut Vec<i32>, arr2: &mut Vec<i32>) -> Vec<i32> {
+    arr1.sort();
+    arr2.sort();
+    let mut idx1 = 0;
+    let mut idx2 = 0;
+    let mut smallest = f64::INFINITY;
+    // let mut current = f64::INFINITY;
+    let mut smallest_pair = vec![];
+    while idx1 < arr1.len() && idx2 < arr2.len() {
+        let first = arr1[idx1];
+        let second = arr2[idx2];
+        if first == second {
+            return vec![first, second];
+        }
+        let current = (first - second).abs().into();
+        if current < smallest {
+            smallest = current;
+            smallest_pair = vec![first, second];
+        }
+        if first < second {
+            idx1 += 1;
+        } else if first > second {
+            idx2 += 1;
+        }
+    }
+
+    smallest_pair
+}
+
+// TESTS
 #[cfg(test)]
 mod tests {
     use super::*;
