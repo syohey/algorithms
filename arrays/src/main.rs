@@ -19,9 +19,12 @@ fn main() {
     // arr.push(a);
     // arr.push(b);
     // println!("{:?}", arr);
-    let mut arr1 = vec![-1, 5, 10, 20, 28, 3];
-    let mut arr2 = vec![26, 134, 135, 15, 17];
-    println!("{:?}", smalledst_difference(&mut arr1, &mut arr2));
+    // let mut arr1 = vec![-1, 5, 10, 20, 28, 3];
+    // let mut arr2 = vec![26, 134, 135, 15, 17];
+    // println!("{:?}", smalledst_difference(&mut arr1, &mut arr2));
+    let mut arr = vec![4, 1, 2, 2, 2, 3, 2, 2];
+    let target = 2;
+    println!("{:?}", move_elem_to_end(&mut arr, target));
 }
 
 // TWO NUMBER SUM
@@ -134,6 +137,28 @@ fn smalledst_difference(arr1: &mut Vec<i32>, arr2: &mut Vec<i32>) -> Vec<i32> {
     }
 
     smallest_pair
+}
+
+// MOVE ELEMENT TO END
+/*
+    Given an array of integers and a target value, move the numbers that are the same as target to the end of the array.
+*/
+#[allow(dead_code)]
+fn move_elem_to_end(arr: &mut Vec<i32>, target: i32) -> Vec<i32> {
+    let mut left = 0;
+    let mut right = arr.len() - 1;
+    while left < right {
+        while left < right && arr[right] == target {
+            right -= 1;
+        }
+        if arr[left] == target {
+            let temp = arr[left];
+            arr[left] = arr[right];
+            arr[right] = temp;
+        }
+        left += 1;
+    }
+    arr.to_vec()
 }
 
 // TESTS
