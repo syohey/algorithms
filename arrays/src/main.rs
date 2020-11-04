@@ -22,9 +22,11 @@ fn main() {
     // let mut arr1 = vec![-1, 5, 10, 20, 28, 3];
     // let mut arr2 = vec![26, 134, 135, 15, 17];
     // println!("{:?}", smalledst_difference(&mut arr1, &mut arr2));
-    let mut arr = vec![4, 1, 2, 2, 2, 3, 2, 2];
-    let target = 2;
-    println!("{:?}", move_elem_to_end(&mut arr, target));
+    // let mut arr = vec![4, 1, 2, 2, 2, 3, 2, 2];
+    // let target = 2;
+    // println!("{:?}", move_elem_to_end(&mut arr, target));
+    let arr = vec![-1, -5, -10, -100, -100, -1010, -1011];
+    println!("{}", is_monotonic(arr));
 }
 
 // TWO NUMBER SUM
@@ -159,6 +161,41 @@ fn move_elem_to_end(arr: &mut Vec<i32>, target: i32) -> Vec<i32> {
         left += 1;
     }
     arr.to_vec()
+}
+
+// MONOTONIC ARRAY
+/*
+    given an array of integers, determine if the array is monotonic.
+*/
+#[allow(dead_code)]
+fn is_monotonic(arr: Vec<i32>) -> bool {
+    if arr.len() <= 2 {
+        return true;
+    }
+
+    let mut direction = arr[1] - arr[0];
+    for i in 2..arr.len() {
+        if direction == 0 {
+            direction = arr[i] - arr[i - 1];
+            continue;
+        }
+
+        if breaks_direction(direction, arr[i - 1], arr[i]) {
+            return false;
+        }
+    }
+
+    true
+}
+
+fn breaks_direction(direction: i32, prev: i32, curr: i32) -> bool {
+    let diff = curr - prev;
+
+    if direction > 0 {
+        return diff < 0;
+    } else {
+        return diff > 0;
+    }
 }
 
 // TESTS
