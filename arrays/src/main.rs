@@ -25,8 +25,16 @@ fn main() {
     // let mut arr = vec![4, 1, 2, 2, 2, 3, 2, 2];
     // let target = 2;
     // println!("{:?}", move_elem_to_end(&mut arr, target));
-    let arr = vec![-1, -5, -10, -100, -100, -1010, -1011];
-    println!("{}", is_monotonic(arr));
+    // let arr = vec![-1, -5, -10, -100, -100, -1010, -1011];
+    // println!("{}", is_monotonic(arr));
+
+    let arr = vec![
+        vec![1, 2, 3, 4],
+        vec![12, 13, 14, 5],
+        vec![11, 16, 15, 6],
+        vec![10, 9, 8, 7],
+    ];
+    println!("{:?}", spiral_traverse(&arr));
 }
 
 // TWO NUMBER SUM
@@ -196,6 +204,52 @@ fn breaks_direction(direction: i32, prev: i32, curr: i32) -> bool {
     } else {
         return diff > 0;
     }
+}
+
+// SPIRAL TRAVERSE
+/*
+    [[ 1,  2,  3, 4],
+     [12, 13, 14, 5],  ==> [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+     [11, 16, 15, 6],
+     [10,  9,  8, 7]]
+*/
+fn spiral_traverse(arr: &Vec<Vec<i32>>) -> Vec<i32> {
+    let mut result = vec![];
+    let mut start_col = 0;
+    let mut end_col = arr[0].len() - 1;
+    let mut start_row = 0;
+    let mut end_row = arr.len() - 1;
+
+    while start_col <= end_col && start_row <= end_row {
+        for col in start_col..end_col + 1 {
+            result.push(arr[start_row][col]);
+        }
+
+        for row in start_row + 1..end_row + 1 {
+            result.push(arr[row][end_col]);
+        }
+
+        for col in (start_col..end_col).rev() {
+            if start_row == end_row {
+                break;
+            }
+            result.push(arr[end_row][col]);
+        }
+
+        for row in (start_row + 1..end_row).rev() {
+            if start_col == end_col {
+                break;
+            }
+            result.push(arr[row][start_col]);
+        }
+
+        start_col += 1;
+        end_col -= 1;
+        start_row += 1;
+        end_row -= 1;
+    }
+
+    result
 }
 
 // TESTS
