@@ -28,13 +28,16 @@ fn main() {
     // let arr = vec![-1, -5, -10, -100, -100, -1010, -1011];
     // println!("{}", is_monotonic(arr));
 
-    let arr = vec![
-        vec![1, 2, 3, 4],
-        vec![12, 13, 14, 5],
-        vec![11, 16, 15, 6],
-        vec![10, 9, 8, 7],
-    ];
-    println!("{:?}", spiral_traverse(&arr));
+    // let arr = vec![
+    //     vec![1, 2, 3, 4],
+    //     vec![12, 13, 14, 5],
+    //     vec![11, 16, 15, 6],
+    //     vec![10, 9, 8, 7],
+    // ];
+    // println!("{:?}", spiral_traverse(&arr));
+
+    let arr = vec![1, 2, 3, 3, 4, 0, 10, 6, 5, -1, -3, 2, 3];
+    println!("{}", longest_peak(&arr));
 }
 
 // TWO NUMBER SUM
@@ -213,6 +216,7 @@ fn breaks_direction(direction: i32, prev: i32, curr: i32) -> bool {
      [11, 16, 15, 6],
      [10,  9,  8, 7]]
 */
+#[allow(dead_code)]
 fn spiral_traverse(arr: &Vec<Vec<i32>>) -> Vec<i32> {
     let mut result = vec![];
     let mut start_col = 0;
@@ -250,6 +254,39 @@ fn spiral_traverse(arr: &Vec<Vec<i32>>) -> Vec<i32> {
     }
 
     result
+}
+
+// LONGEST PEAK
+#[allow(dead_code)]
+fn longest_peak(arr: &Vec<i32>) -> usize {
+    let mut longest_peak_length = 0;
+    let mut i = 1;
+
+    while i < arr.len() - 1 {
+        let is_peak = arr[i - 1] < arr[i] && arr[i] > arr[i + 1];
+
+        if !is_peak {
+            i += 1;
+            continue;
+        }
+
+        let mut left_idx = i - 2;
+        while arr[left_idx] < arr[left_idx + 1] {
+            left_idx -= 1;
+        }
+        let mut right_idx = i + 2;
+        while right_idx < arr.len() && arr[right_idx] < arr[right_idx - 1] {
+            right_idx += 1;
+        }
+
+        let current_peak_length = right_idx - left_idx - 1;
+        if longest_peak_length < current_peak_length {
+            longest_peak_length = current_peak_length;
+        }
+        i = right_idx
+    }
+
+    longest_peak_length
 }
 
 // TESTS
